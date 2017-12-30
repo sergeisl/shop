@@ -15,25 +15,25 @@ class MenuController extends Controller {
      *
      * @return \Illuminate\View\View
      */
-    public function index(Request $request) {
+    public function index (Request $request) {
 
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $menu = Menu::where('parent_id', 'LIKE', "%$keyword%")
-                ->orWhere('title', 'LIKE', "%$keyword%")
-                ->orWhere('link', 'LIKE', "%$keyword%")
-                ->orWhere('position', 'LIKE', "%$keyword%")
-                ->orWhere('disabled', 'LIKE', "%$keyword%")
-                ->paginate($perPage);
+            $menu = Menu::where('parent_id', 'LIKE', "%$keyword%")->
+            orWhere('title', 'LIKE', "%$keyword%")->
+            orWhere('link', 'LIKE', "%$keyword%")->
+            orWhere('position', 'LIKE', "%$keyword%")->
+            orWhere('disabled', 'LIKE', "%$keyword%")->
+            paginate($perPage);
         } else {
             $menu = Menu::paginate($perPage);
         }
         $model_menu = new Menu();
         $menu_item = $model_menu->to_tree();
 
-        return  view('admin.menu.index', compact('menu','menu_item'));
+        return view('admin.menu.index', compact('menu', 'menu_item'));
     }
 
     /**
@@ -41,12 +41,17 @@ class MenuController extends Controller {
      *
      * @return \Illuminate\View\View
      */
-    public function create() {
+    public function create () {
 
-        $menu = new Menu();
-        $menu_item = $menu->to_list();
-
-        return view('admin.menu.create', compact('menu_item'));
+//        $menu = new Menu();
+//        $menu_item = $menu->to_list();
+//
+//        return view('admin.menu.create', compact('menu_item'));
+        return view('admin.menu.create', [
+            'menu'   => [],
+            'menus' => Menu::with('children')->where('parent_id', '0')->get(),
+            'delimiter'  => ''
+        ]);
     }
 
     /**
@@ -56,8 +61,7 @@ class MenuController extends Controller {
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
-    {
+    public function store (Request $request) {
 
         $requestData = $request->all();
 
@@ -73,8 +77,7 @@ class MenuController extends Controller {
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
-    {
+    public function show ($id) {
         $menu = Menu::findOrFail($id);
 
         return view('admin.menu.show', compact('menu'));
@@ -87,13 +90,18 @@ class MenuController extends Controller {
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
-    {
-        $menu = Menu::findOrFail($id);
-        $model_menu = new Menu();
-        $menu_item = $model_menu->to_list();
+    public function edit ($id) {
+//        $model_menu = new Menu();
+//        $menu_item = $model_menu->to_list();
+//
+//        return view('admin.menu.edit', compact('menu', 'menu_item'));
 
-        return  view('admin.menu.edit', compact('menu', 'menu_item'));
+        $menu = Menu::findOrFail($id);
+        return view('admin.menu.edit', [
+            'menu'   => $menu,
+            'menus' => Menu::with('children')->where('parent_id', '0')->get(),
+            'delimiter'  => ''
+        ]);
 
     }
 
@@ -105,8 +113,7 @@ class MenuController extends Controller {
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
-    {
+    public function update (Request $request, $id) {
 
         $requestData = $request->all();
 
@@ -123,8 +130,7 @@ class MenuController extends Controller {
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
-    {
+    public function destroy ($id) {
         Menu::destroy($id);
 
         return redirect('admin/menu')->with('flash_message', 'Menu deleted!');

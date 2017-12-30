@@ -1,8 +1,10 @@
 <div class="form-group {{ $errors->has('parent_id') ? 'has-error' : ''}}">
-    {!! Form::label('parent_id', 'Parent Id', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('parent_id', 'Родительская Страница', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        {!! Form::select('parent_id', $menu_item, null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
-        {!! $errors->first('parent_id', '<p class="help-block">:message</p>') !!}
+        <select class="form-control" name="parent_id">
+            <option value="0">-- Нет Родительской Страницы--</option>
+            @include('admin.menu.partials.menu', ['menus' => $menus])
+        </select>
     </div>
 </div><div class="form-group {{ $errors->has('title') ? 'has-error' : ''}}">
     {!! Form::label('title', 'Title', ['class' => 'col-md-4 control-label']) !!}

@@ -7,9 +7,9 @@
 
             <div class="col-md-9">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Create New Menu</div>
+                    <div class="panel-heading">Edit Category #{{ $category->id }}</div>
                     <div class="panel-body">
-                        <a href="{{ url('/admin/menu') }}" title="Back"><button class="btn btn-warning btn-xs"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ url('/admin/categories') }}" title="Back"><button class="btn btn-warning btn-xs"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -21,10 +21,14 @@
                             </ul>
                         @endif
 
-                        {!! Form::open(['url' => '/admin/menu', 'class' => 'form-horizontal', 'files' => true]) !!}
+                        {!! Form::model($category, [
+                            'method' => 'PATCH',
+                            'url' => ['/admin/categories', $category->id],
+                            'class' => 'form-horizontal',
+                            'files' => true
+                        ]) !!}
 
-                        {{--@include ('admin.menu.form')--}}
-                        @include('admin.menu.partials.form')
+                        @include ('admin.categories.partials.form', ['submitButtonText' => 'Update'])
 
                         {!! Form::close() !!}
 

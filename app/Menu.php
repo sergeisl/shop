@@ -27,6 +27,10 @@ class Menu extends Model {
      */
     protected $fillable = ['parent_id', 'title', 'link', 'position', 'disabled'];
 
+    public function children() {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
     public function to_list(){
         $menu_free = $this->build_tree($this->form_tree(json_decode($this->all()
                  , false)), 0, 0 ,0);

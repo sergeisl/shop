@@ -7,11 +7,15 @@
 
             <div class="col-md-9">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Create New Menu</div>
+                    <div class="panel-heading">Create New Product</div>
                     <div class="panel-body">
-                        <a href="{{ url('/admin/menu') }}" title="Back"><button class="btn btn-warning btn-xs"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
-                        <br />
-                        <br />
+                        <a href="{{ url('/admin/products') }}" title="Back">
+                            <button class="btn btn-warning btn-xs"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                Back
+                            </button>
+                        </a>
+                        <br/>
+                        <br/>
 
                         @if ($errors->any())
                             <ul class="alert alert-danger">
@@ -21,11 +25,8 @@
                             </ul>
                         @endif
 
-                        {!! Form::open(['url' => '/admin/menu', 'class' => 'form-horizontal', 'files' => true]) !!}
-
-                        {{--@include ('admin.menu.form')--}}
-                        @include('admin.menu.partials.form')
-
+                        {!! Form::open(['url' => '/admin/products', 'class' => 'form-horizontal', 'files' => true]) !!}
+                        @include('admin.products.partials.form')
                         {!! Form::close() !!}
 
                     </div>

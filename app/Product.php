@@ -30,15 +30,22 @@ class Product extends Model {
         return $this->morphToMany('App\Category', 'categoryable');
     }
 
+    public function criteria () {
+        return $this->morphToMany('App\Criteria', 'product_criteria');
+    }
+
     public function images () {
         return $this->hasMany('App\Image', 'product_id', 'id');
     }
 
-    public function add_images ($images , $product_id) {
-        foreach ($images as $img){
+    public function add_images ($images, $product_id) {
+        foreach ($images as $img) {
             $image = new Image();
-            $image->fill(['name' => $img->getClientOriginalName(),'product_id' => $product_id])->save();
-            $img->store('public/images');
+            // $image_name = str_random(10).$img->hashName();
+            $image_name = md5(base64_decode($img)) . '.' . $img->extension();
+
+            $image->fill(['name' => $image_name, 'product_id' => $product_id])->save();
+            $img->storeAs('public/upload/images', $image_name);
         }
     }
 

@@ -22,6 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>['auth']], function (){
     Route::resource('/menu', 'MenuController', ['as'=>'admin']);
     Route::resource('/categories', 'CategoriesController', ['as'=>'admin']);
+    Route::resource('/criteria', 'CriteriaController', ['as'=>'admin']);
     Route::resource('/products', 'ProductsController');
 });
 

@@ -20,6 +20,9 @@
                     <a href="{{ url('/admin/products') }}">
                         Товары
                     </a>
+                    <a href="{{ url('/admin/criteria') }}">
+                        Критерии
+                    </a>
                 </li>
             </ul>
         </div>

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Product;
 use App\Category;
-use App\Image;
+use App\Criteria;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller {
@@ -50,6 +50,8 @@ class ProductsController extends Controller {
         return view('admin.products.create', [
             'product' => [],
             'categories' => Category::with('children')->where('parent_id', 0)->get(),
+            'criteria' => Criteria::with('children')->where('parent_id', 0)->get(),
+            'images' => [],
             'delimiter' => ''
         ]);
     }
@@ -68,13 +70,9 @@ class ProductsController extends Controller {
         if ($request->input('categories')) :
             $product->categories()->attach($request->input('categories'));
         endif;
-        if ($request->input('categories')) :
-            $product->images()->attach(['wwww']);
+        if ($request->input('criteria')) :
+            $product->criteria()->attach($request->input('criteria'));
         endif;
-
-   /*     if ($request->input('images')) :
-            $product->categories()->attach($request->input('images'));
-        endif;*/
 
         return redirect()->route('products.index');
     }
@@ -101,9 +99,10 @@ class ProductsController extends Controller {
      */
     public function edit ($id) {
 
-        return view('admin.products.edit', [
+         return view('admin.products.edit', [
             'product' => Product::findOrFail($id),
             'categories' => Category::with('children')->where('parent_id', 0)->get(),
+            'criteria' => Criteria::with('children')->where('parent_id', 0)->get(),
             'images' => Product::findOrFail($id)->images()->get(),
             'delimiter' => ''
         ]);
@@ -121,11 +120,14 @@ class ProductsController extends Controller {
 
         $product = Product::findOrFail($id);
         $product->categories()->detach();
+        $product->criteria()->detach();
         if($request->input('categories')) :
             $product->categories()->attach($request->input('categories'));
         endif;
-
-        if($request->file('images')) :
+        if($request->input('criteria')) :
+            $product->criteria()->attach($request->input('criteria'));
+        endif;
+        if($request->hasFile('images')) :
             $product->add_images($request->file('images'), $id);
         endif;
         return redirect('admin/products')->with('flash_message', 'Product updated!');

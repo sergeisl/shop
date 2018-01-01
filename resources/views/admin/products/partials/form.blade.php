@@ -19,11 +19,18 @@
             @include('admin.products.partials.categories', ['categories' => $categories])
         </select>
     </div>
-</div><div class="form-group {{ $errors->has('brief') ? 'has-error' : ''}}">
+</div>
+<div class="form-group {{ $errors->has('brief') ? 'has-error' : ''}}">
+    {!! Form::label('criteria', 'Критерии', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+        <select class="form-control" name="criteria[]" multiple="">
+            @include('admin.products.partials.criteria', ['criteria' => $criteria])
+        </select>
+    </div>
+</div>
+<div class="form-group {{ $errors->has('brief') ? 'has-error' : ''}}">
     {!! Form::label('image', 'Загрузить картинку ', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-         <input type="file" multiple name="images[]">
-        <input type="file" multiple name="images[]">
         <input type="file" multiple name="images[]">
         @foreach ($images as $image)
             <li>{{ $image->name }}</li>

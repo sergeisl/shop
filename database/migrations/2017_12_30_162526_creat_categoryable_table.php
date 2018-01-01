@@ -24,16 +24,6 @@ class CreatCategoryableTable extends Migration {
 
 
     /**
-     *
-     * create table topics (
-     * id_topic int (10) AUTO_INCREMENT,
-     * topic_name varchar(100) NOT NULL,
-     * id_author int (10) NOT NULL,
-     * PRIMARY KEY (id_topic),
-     * FOREIGN KEY (id_author) REFERENCES users (id_user)
-     * );
-     *
-     *
      * Reverse the migrations.
      *
      * @return void

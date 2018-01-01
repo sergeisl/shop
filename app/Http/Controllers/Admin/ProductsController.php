@@ -6,8 +6,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Product;
+use App\Filter;
 use App\Category;
-use App\Criteria;
+use App\Criterion;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller {
@@ -47,10 +48,11 @@ class ProductsController extends Controller {
      * @return \Illuminate\View\View
      */
     public function create () {
+        //return Filter::with('criteria')->get();
         return view('admin.products.create', [
             'product' => [],
             'categories' => Category::with('children')->where('parent_id', 0)->get(),
-            'criteria' => Criteria::with('children')->where('parent_id', 0)->get(),
+            'filters' =>  Filter::with('criteria')->get(),
             'images' => [],
             'delimiter' => ''
         ]);
@@ -74,7 +76,8 @@ class ProductsController extends Controller {
             $product->criteria()->attach($request->input('criteria'));
         endif;
 
-        return redirect()->route('products.index');
+        //return redirect()->route('products.index');
+        return redirect('admin/products')->with('flash_message', 'Product Create!');
     }
 
     /**
@@ -100,11 +103,11 @@ class ProductsController extends Controller {
     public function edit ($id) {
 
          return view('admin.products.edit', [
-            'product' => Product::findOrFail($id),
-            'categories' => Category::with('children')->where('parent_id', 0)->get(),
-            'criteria' => Criteria::with('children')->where('parent_id', 0)->get(),
-            'images' => Product::findOrFail($id)->images()->get(),
-            'delimiter' => ''
+             'product' => Product::findOrFail($id),
+             'categories' => Category::with('children')->where('parent_id', 0)->get(),
+             'filters' =>  Filter::with('criteria')->get(),
+             'images' => Product::findOrFail($id)->images()->get(),
+             'delimiter' => ''
         ]);
     }
 

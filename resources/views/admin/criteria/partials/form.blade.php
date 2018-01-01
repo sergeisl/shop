@@ -10,9 +10,8 @@
 <div class="form-group {{ $errors->has('parent_id') ? 'has-error' : ''}}">
     {!! Form::label('parent_id', 'Родительская критерия', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        <select class="form-control" name="parent_id">
-            <option value="0">-- без родительской критерии --</option>
-            @include('admin.criteria.partials.criteria', ['criteria' => $criteria])
+        <select class="form-control" name="filter_id">
+            @include('admin.criteria.partials.criteria', ['filters' => $filters])
         </select>
     </div>
 </div>

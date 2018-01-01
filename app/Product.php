@@ -27,11 +27,11 @@ class Product extends Model {
     protected $fillable = ['name', 'code', 'brief', 'text', 'seotext', 'price_old', 'price', 'label', 'keywords', 'description', 'param_name', 'published'];
 
     public function categories () {
-        return $this->morphToMany('App\Category', 'categoryable');
+        return $this->morphToMany('App\Category', 'categoryable', 'categoryable');
     }
 
     public function criteria () {
-        return $this->morphToMany('App\Criteria', 'product_criteria');
+        return $this->morphToMany('App\Criterion', 'product_criteria', 'product_criteria', 'product_id','criterion_id');
     }
 
     public function images () {

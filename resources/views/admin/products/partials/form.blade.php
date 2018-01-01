@@ -24,7 +24,7 @@
     {!! Form::label('criteria', 'Критерии', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         <select class="form-control" name="criteria[]" multiple="">
-            @include('admin.products.partials.criteria', ['criteria' => $criteria])
+            @include('admin.products.partials.criteria', ['filters' => $filters])
         </select>
     </div>
 </div>

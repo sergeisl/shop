@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Criteria;
+use App\Criterion;
+use App\Filter;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Category;
 use Illuminate\Http\Request;
 
 class CriteriaController extends Controller {
@@ -20,11 +20,11 @@ class CriteriaController extends Controller {
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $criteria = Criteria::where('name', 'LIKE', "%$keyword%")
+            $criteria = Criterion::where('name', 'LIKE', "%$keyword%")
                 ->orWhere('parent_id', 'LIKE', "%$keyword%")
                 ->paginate($perPage);
         } else {
-            $criteria = Criteria::paginate($perPage);
+            $criteria = Criterion::paginate($perPage);
         }
 
         return view('admin.criteria.index', compact('criteria'));
@@ -39,7 +39,7 @@ class CriteriaController extends Controller {
 
         return view('admin.criteria.create', [
             'criterion' => [],
-            'criteria' => Criteria::with('children')->where('parent_id', '0')->get(),
+            'filters' => Filter::all(),
             'delimiter' => ''
         ]);
 
@@ -56,9 +56,9 @@ class CriteriaController extends Controller {
 
         $requestData = $request->all();
 
-        Criteria::create($requestData);
+        Criterion::create($requestData);
 
-        return redirect('admin/criteria')->with('flash_message', 'Criteria added!');
+        return redirect('admin/criteria')->with('flash_message', 'Criterion added!');
     }
 
     /**
@@ -71,8 +71,8 @@ class CriteriaController extends Controller {
     public function show ($id) {
 
         return view('admin.criteria.create', [
-            'criterion' => Criteria::findOrFail($id),
-            'criteria' => Criteria::with('children')->where('parent_id', '0')->get(),
+            'criterion' => Criterion::findOrFail($id),
+            'criteria' => Criterion::with('children')->where('parent_id', '0')->get(),
             'delimiter' => ''
         ]);
 
@@ -87,8 +87,8 @@ class CriteriaController extends Controller {
      */
     public function edit ($id) {
         return view('admin.criteria.create', [
-            'criterion' => Criteria::findOrFail($id),
-            'criteria' => Criteria::with('children')->where('parent_id', '0')->get(),
+            'criterion' => Criterion::findOrFail($id),
+            'criteria' => Criterion::with('children')->where('parent_id', '0')->get(),
             'delimiter' => ''
         ]);
     }
@@ -105,7 +105,7 @@ class CriteriaController extends Controller {
 
         $requestData = $request->all();
 
-        $criteria = Criteria::findOrFail($id);
+        $criteria = Criterion::findOrFail($id);
         $criteria->update($requestData);
 
         return redirect('admin/criteria')->with('flash_message', 'criteria updated!');
@@ -119,7 +119,7 @@ class CriteriaController extends Controller {
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy ($id) {
-        Criteria::destroy($id);
+        Criterion::destroy($id);
 
         return redirect('admin/criteria')->with('flash_message', 'criteria deleted!');
     }

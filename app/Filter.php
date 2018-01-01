@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Criteria extends Model
+class Filter extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'criteria';
+    protected $table = 'filters';
 
     /**
     * The database primary key value.
@@ -25,10 +25,12 @@ class Criteria extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'parent_id'];
+    protected $fillable = ['name', 'position', 'visible', 'type'];
 
-    public function children() {
-        return $this->hasMany(self::class, 'parent_id');
+        public function criteria() {
+        return $this->hasMany('App\Criterion', 'filter_id', 'id');
     }
-    
+
+
+
 }

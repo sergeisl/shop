@@ -25,6 +25,8 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>['auth']], 
     Route::resource('/criteria', 'CriteriaController', ['as'=>'admin']);
     Route::resource('/products', 'ProductsController', ['as'=>'admin']);
     Route::resource('/filter', 'FilterController', ['as'=>'admin']);
+    Route::resource('/parameters', 'ParametersController', ['as'=>'admin']);
+    Route::resource('/order', 'OrderController');
 });
 
 
